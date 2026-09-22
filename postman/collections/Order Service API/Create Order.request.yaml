@@ -1,0 +1,45 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/api/orders'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "userId": "{{testUserId}}",
+      "items": [
+        {
+          "productId": "p1",
+          "name": "Wireless Noise-Cancelling Headphones",
+          "price": 149.99,
+          "quantity": 2
+        },
+        {
+          "productId": "p3",
+          "name": "Ceramic Pour-Over Coffee Set",
+          "price": 39.50,
+          "quantity": 1
+        }
+      ],
+      "total": 339.48
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('status code is 201', function () {
+        pm.response.to.have.status(201);
+      });
+
+      pm.test('response is the created, confirmed order', function () {
+        const body = pm.response.json();
+        pm.expect(body.id).to.be.a('string').that.is.not.empty;
+        pm.expect(body.status).to.eql('confirmed');
+        pm.collectionVariables.set('createdOrderId', body.id);
+      });
+examples: './.resources/Create Order.resources/examples'

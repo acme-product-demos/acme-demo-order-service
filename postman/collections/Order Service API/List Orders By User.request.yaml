@@ -1,0 +1,31 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/api/orders?userId={{testUserId}}'
+order: 5000
+headers:
+  - key: Accept
+    value: application/json
+queryParams:
+  - key: userId
+    value: '{{testUserId}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('status code is 200', function () {
+        pm.response.to.have.status(200);
+      });
+
+      pm.test('every order belongs to the filtered user, including the one just created', function () {
+        const body = pm.response.json();
+        const testUserId = pm.collectionVariables.get('testUserId');
+        const createdOrderId = pm.collectionVariables.get('createdOrderId');
+
+        pm.expect(body).to.be.an('array');
+        body.forEach(function (order) {
+          pm.expect(order.userId).to.eql(testUserId);
+        });
+
+        const ids = body.map(function (order) { return order.id; });
+        pm.expect(ids).to.include(createdOrderId);
+      });

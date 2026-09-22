@@ -1,0 +1,19 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/api/orders/{{createdOrderId}}'
+order: 6000
+headers:
+  - key: Accept
+    value: application/json
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('status code is 200', function () {
+        pm.response.to.have.status(200);
+      });
+
+      pm.test('returns the order created earlier in this run', function () {
+        const body = pm.response.json();
+        pm.expect(body.id).to.eql(pm.collectionVariables.get('createdOrderId'));
+      });

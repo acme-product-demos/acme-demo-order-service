@@ -1,0 +1,16 @@
+$kind: collection
+name: Order Service API
+description: >-
+  Requests covering order-service's health check and order lifecycle
+  (create, list, filter by user, get by id) against the locally running
+  Express service. Backed by an in-memory store — order ids are
+  sequential per-process (o1, o2, ...) and shared with other agents/tests
+  hitting the same running instance, so tests assert on the specific
+  order created in this run rather than exact ids or counts.
+variables:
+  - key: testUserId
+    value: postman-cli-order-test
+    description: userId used by the order-creation requests in this collection.
+  - key: createdOrderId
+    value: ''
+    description: Set by "Create Order" and consumed by later requests in this run.

@@ -1,0 +1,29 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/api/orders'
+order: 3000
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "userId": "{{testUserId}}",
+      "items": [],
+      "total": 0
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('status code is 400', function () {
+        pm.response.to.have.status(400);
+      });
+
+      pm.test('body reports a validation error', function () {
+        const body = pm.response.json();
+        pm.expect(body.error).to.be.a('string').that.is.not.empty;
+      });

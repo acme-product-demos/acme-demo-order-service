@@ -1,0 +1,24 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/health'
+order: 1000
+headers:
+  - key: Accept
+    value: application/json
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      console.log('Running Health Check against', pm.variables.get('baseUrl'));
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('status code is 200', function () {
+        pm.response.to.have.status(200);
+      });
+
+      pm.test('body reports ok status and service name', function () {
+        const body = pm.response.json();
+        pm.expect(body.status).to.eql('ok');
+        pm.expect(body.service).to.eql('order-service');
+      });

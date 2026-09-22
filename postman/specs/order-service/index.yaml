@@ -1,0 +1,215 @@
+openapi: 3.0.3
+info:
+  title: Order Service API
+  description: >-
+    Service for creating and retrieving orders. Backed by an in-memory
+    store — data does not persist across process restarts and order ids
+    are sequential per-process (o1, o2, ...).
+  version: 0.1.0
+servers:
+  - url: http://localhost:4003
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      summary: Health check
+      description: Returns service liveness status.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Service is healthy.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+              example:
+                status: ok
+                service: order-service
+  /api/orders:
+    get:
+      operationId: listOrders
+      summary: List orders
+      description: >-
+        Returns all orders, newest first. Optionally filtered by userId.
+      tags:
+        - Orders
+      parameters:
+        - name: userId
+          in: query
+          required: false
+          description: Filter results to only orders belonging to this user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Array of orders (newest first).
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+    post:
+      operationId: createOrder
+      summary: Create an order
+      description: >-
+        Creates a new order. Requires a non-empty userId string and a
+        non-empty items array; otherwise responds 400.
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '201':
+          description: Order created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: >-
+            Validation failed: userId is missing/empty, or items is
+            missing/empty.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                missingItems:
+                  summary: items is an empty array
+                  value:
+                    error: items is required and must be a non-empty array
+                missingUserId:
+                  summary: userId is missing or empty
+                  value:
+                    error: userId is required and must be a non-empty string
+  /api/orders/{id}:
+    get:
+      operationId: getOrderById
+      summary: Get an order by id
+      description: Returns a single order by its id, or 404 if it does not exist.
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The order id (e.g. "o1").
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The order was found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: No order exists with the given id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: Order not found
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required:
+        - status
+        - service
+      properties:
+        status:
+          type: string
+          example: ok
+        service:
+          type: string
+          example: order-service
+    OrderItem:
+      type: object
+      required:
+        - productId
+        - name
+        - price
+        - quantity
+      properties:
+        productId:
+          type: string
+          example: p1
+        name:
+          type: string
+          example: Wireless Noise-Cancelling Headphones
+        price:
+          type: number
+          format: double
+          example: 149.99
+        quantity:
+          type: integer
+          example: 2
+    Order:
+      type: object
+      required:
+        - id
+        - userId
+        - items
+        - total
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: o1
+        userId:
+          type: string
+          example: postman-cli-order-test
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        total:
+          type: number
+          format: double
+          example: 339.48
+        status:
+          type: string
+          enum:
+            - confirmed
+          example: confirmed
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-09-22T21:17:21.304Z'
+    CreateOrderRequest:
+      type: object
+      required:
+        - userId
+        - items
+        - total
+      properties:
+        userId:
+          type: string
+          minLength: 1
+          example: postman-cli-order-test
+        items:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        total:
+          type: number
+          format: double
+          example: 339.48
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          example: Order not found

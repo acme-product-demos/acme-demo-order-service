@@ -1,0 +1,6 @@
+name: Order Service Local
+values:
+  - key: baseUrl
+    value: 'http://localhost:4003'
+    enabled: true
+    type: default

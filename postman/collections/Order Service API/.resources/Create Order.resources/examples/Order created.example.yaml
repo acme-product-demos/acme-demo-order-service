@@ -1,0 +1,59 @@
+$kind: http-example
+name: Order created
+request:
+  url: '{{baseUrl}}/api/orders'
+  method: POST
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "userId": "postman-cli-order-test",
+        "items": [
+          {
+            "productId": "p1",
+            "name": "Wireless Noise-Cancelling Headphones",
+            "price": 149.99,
+            "quantity": 2
+          },
+          {
+            "productId": "p3",
+            "name": "Ceramic Pour-Over Coffee Set",
+            "price": 39.50,
+            "quantity": 1
+          }
+        ],
+        "total": 339.48
+      }
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: Content-Type
+      value: application/json; charset=utf-8
+  body:
+    type: json
+    content: |-
+      {
+        "id": "o1",
+        "userId": "postman-cli-order-test",
+        "items": [
+          {
+            "productId": "p1",
+            "name": "Wireless Noise-Cancelling Headphones",
+            "price": 149.99,
+            "quantity": 2
+          },
+          {
+            "productId": "p3",
+            "name": "Ceramic Pour-Over Coffee Set",
+            "price": 39.50,
+            "quantity": 1
+          }
+        ],
+        "total": 339.48,
+        "status": "confirmed",
+        "createdAt": "2026-09-22T21:17:21.304Z"
+      }
