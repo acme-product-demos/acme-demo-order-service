@@ -1,0 +1,10 @@
+version: 1
+id: b15e40f8-9423-4647-9cc5-c9e1ea9eb8ac
+name: Order Service Mock
+slug: order-service-mock
+protocol: http
+port: 5003
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true
