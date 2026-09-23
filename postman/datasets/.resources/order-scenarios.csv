@@ -1,0 +1,5 @@
+userId,items_json,total
+alice,"[{""productId"":""p1"",""name"":""Wireless Noise-Cancelling Headphones"",""price"":149.99,""quantity"":1}]",149.99
+bob,"[{""productId"":""p2"",""name"":""Mechanical Keyboard"",""price"":89.5,""quantity"":2},{""productId"":""p3"",""name"":""Ceramic Pour-Over Coffee Set"",""price"":39.5,""quantity"":1}]",218.5
+carol,"[{""productId"":""p4"",""name"":""Memory Foam Throw Pillow"",""price"":24.99,""quantity"":3}]",74.97
+dave,"[{""productId"":""p1"",""name"":""Wireless Noise-Cancelling Headphones"",""price"":149.99,""quantity"":1},{""productId"":""p4"",""name"":""Memory Foam Throw Pillow"",""price"":24.99,""quantity"":2}]",199.97

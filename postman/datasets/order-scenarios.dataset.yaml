@@ -1,0 +1,21 @@
+type: dataset
+name: "Order Creation Scenarios"
+id: 3377bc18-e9ff-4926-8e23-a0b2b3178251
+description: "Realistic Create Order request payloads for data-driven collection runs"
+data_dir: .resources
+sources:
+  - from: embedded_datasource
+    datasource:
+      name: order_scenarios
+      id: 28cc0d56-c694-4308-9bc5-5fb2e3d2d376
+      format: csv
+      source_type: static
+      location:
+        type: local_filesystem
+        value: .resources/order-scenarios.csv
+views:
+  - from: embedded_view
+    view:
+      name: create_order_rows
+      id: 4aa4a415-0c1f-402f-a00e-273914291748
+      query: SELECT * FROM order_scenarios
