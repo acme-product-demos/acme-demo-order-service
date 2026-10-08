@@ -1,0 +1,10 @@
+version: 1
+name: Order Service Mock (Beta)
+slug: order-service-mock-beta
+protocol: http
+port: 5013
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true
+    id: 01a11a95-c8b0-717f-a1bc-b64f7f255c73
