@@ -1,0 +1,10 @@
+version: 1
+name: Order Service Mock (Prod)
+slug: order-service-mock-prod
+protocol: http
+port: 5023
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true
+    id: 01a11a95-e316-75c2-8a44-0d0963bd9271

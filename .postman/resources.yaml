@@ -2,9 +2,13 @@ cloudResources:
   collections:
     ../postman/collections/Order Service API: 49130935-2698710e-61ef-42b3-887c-f46f655419ee
   environments:
+    ../postman/environments/order-service-beta.environment.yaml: 49130935-3de69009-6c42-465f-9d18-0236dc506be5
     ../postman/environments/order-service-local.environment.yaml: 49130935-774204fb-eebf-4ad1-be75-c257e5494818
     ../postman/environments/order-service-mock.environment.yaml: 49130935-f16e1915-61ce-4aae-9a2d-056ff1974bce
+    ../postman/environments/order-service-prod.environment.yaml: 49130935-9977d713-49e2-471e-a232-c5f9e75fdc3c
   mocks:
+    ../postman/mocks/order-service-mock-beta/config.yaml: 0fa9e47c-bebc-46f3-b29d-9b702f07cff8
+    ../postman/mocks/order-service-mock-prod/config.yaml: 0f6c54f4-8119-4e27-afb2-e7e5ea2a0bc2
     ../postman/mocks/order-service-mock/config.yaml: b15e40f8-9423-4647-9cc5-c9e1ea9eb8ac
   specs:
     ../postman/specs/order-service/index.yaml: ecc2b874-bd32-44a6-bc11-5234ddd67caf
