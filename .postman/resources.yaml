@@ -14,6 +14,6 @@ cloudResources:
     ../postman/specs/order-service/index.yaml: ecc2b874-bd32-44a6-bc11-5234ddd67caf
 resourceNameMappings:
   specs:
-    - ../postman/specs/order-service/index.yaml: index.yaml
+    - ../postman/specs/order-service/index.yaml: Order Service API
 workspace:
   id: 7548ccb1-0053-4ca9-8b8d-569896793e98
