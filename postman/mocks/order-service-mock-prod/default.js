@@ -64,6 +64,14 @@ function readBody(req, cb) {
   });
 }
 
+// Returns the body's unexpected top-level keys (those not in allowedKeys),
+// or null if there are none / the body isn't a plain object.
+function unexpectedFields(body, allowedKeys) {
+  if (typeof body !== 'object' || body === null || Array.isArray(body)) return null;
+  const extra = Object.keys(body).filter((key) => !allowedKeys.includes(key));
+  return extra.length > 0 ? extra : null;
+}
+
 const server = http.createServer((req, res) => {
   const url = new URL(req.url || '', 'http://localhost');
   const pathname = url.pathname;
@@ -90,6 +98,13 @@ const server = http.createServer((req, res) => {
   // @endpoint POST /api/orders
   if (req.method === 'POST' && pathname === '/api/orders') {
     return readBody(req, (body) => {
+      const extra = unexpectedFields(body, ['userId', 'items', 'total']);
+      if (extra) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        return res.end(
+          JSON.stringify({ error: `Unexpected field(s) in request body: ${extra.join(', ')}` })
+        );
+      }
       if (
         requestedStatusCode === '400' ||
         typeof body.userId !== 'string' ||
