@@ -6,6 +6,13 @@ info:
     store — data does not persist across process restarts and order ids
     are sequential per-process (o1, o2, ...).
   version: 0.1.0
+  contact:
+    name: acme-corp demo team
+    email: avinash.choudhary@postman.com
+    url: https://github.com/acme-product-demos/acme-demo-order-service
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
 servers:
   - url: http://localhost:4003
 paths:
