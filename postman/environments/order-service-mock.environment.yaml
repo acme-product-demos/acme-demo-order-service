@@ -4,3 +4,7 @@ values:
     value: 'https://order-service-mock.mock.product-demos.postman.dev'
     enabled: true
     type: default
+  - key: mockSessionId
+    value: ''
+    enabled: true
+    type: default

@@ -1,0 +1,36 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/api/orders'
+order: 7500
+description: >-
+  Self-contained negative test, independent of order state: a body with an
+  unexpected field must be rejected with a clear error, not silently
+  accepted.
+headers:
+  - key: x-mock-session
+    value: "{{mockSessionId}}"
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "userId": "contract-test-user",
+      "items": [],
+      "total": 0,
+      "couponCode": "NOT-PART-OF-THE-CONTRACT"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('status is 400', function () {
+        pm.response.to.have.status(400);
+      });
+
+      pm.test('error names the unexpected field', function () {
+        const body = pm.response.json();
+        pm.expect(body.error).to.include('couponCode');
+      });

@@ -3,6 +3,8 @@ method: GET
 url: '{{baseUrl}}/api/orders'
 order: 4000
 headers:
+  - key: x-mock-session
+    value: "{{mockSessionId}}"
   - key: Accept
     value: application/json
 scripts:

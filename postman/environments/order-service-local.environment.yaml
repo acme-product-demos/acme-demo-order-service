@@ -4,3 +4,7 @@ values:
     value: 'http://localhost:4003'
     enabled: true
     type: default
+  - key: mockSessionId
+    value: ''
+    enabled: true
+    type: default
