@@ -34,7 +34,11 @@ jobs:
       - name: Collection lint (structure/style)
         run: postman collection lint "postman/collections/Order Service API" -f error
       - name: Collection run (live contract test)
-        run: postman collection run "postman/collections/Order Service API" -e postman/environments/order-service-local.environment.yaml
+        # Scoped to the pre-existing requests: "Create Order Rejects
+        # Unexpected Field" exercises validation that only the mock has
+        # (see the step below) -- the real service was intentionally left
+        # unchanged.
+        run: postman collection run "postman/collections/Order Service API" -e postman/environments/order-service-local.environment.yaml -i "Health Check" -i "Create Order" -i "Create Order Missing Items (negative)" -i "List Orders" -i "List Orders By User" -i "Get Order By Id" -i "Get Order Not Found"
       - name: Contract test against deployed mock (publisher-driven)
         # Deployed mocks run multiple non-sticky instances with no shared
         # memory (confirmed separately), so the full create-then-look-up
