@@ -21,6 +21,8 @@ jobs:
       - name: Authenticate Postman CLI
         run: postman login --with-api-key "${{ secrets.POSTMAN_API_KEY }}"
       - name: Start service in background
+        env:
+          SHIPPING_SERVICE_URL: https://shipping-service-mock-8a6ca6.mock.product-demos.postman.dev
         run: nohup npm start > server.log 2>&1 &
       - name: Wait for service to be healthy
         run: |

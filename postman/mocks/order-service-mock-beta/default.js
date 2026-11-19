@@ -98,7 +98,7 @@ const server = http.createServer((req, res) => {
   // @endpoint POST /api/orders
   if (req.method === 'POST' && pathname === '/api/orders') {
     return readBody(req, (body) => {
-      const extra = unexpectedFields(body, ['userId', 'items', 'total']);
+      const extra = unexpectedFields(body, ['userId', 'items', 'total', 'paymentTransactionId']);
       if (extra) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         return res.end(
@@ -123,6 +123,7 @@ const server = http.createServer((req, res) => {
         userId: body.userId,
         items: body.items,
         total: typeof body.total === 'number' ? body.total : 0,
+        paymentTransactionId: body.paymentTransactionId || null,
         status: 'confirmed',
         createdAt: new Date().toISOString(),
       };
